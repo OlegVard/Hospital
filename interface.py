@@ -13,7 +13,8 @@ class MainWindow(tk.Frame):
         btn_open_dialog = tk.Button(toolbar,
                                     text='Записаться на прием',
                                     command=lambda: self.open_dialog(),
-                                    compound=tk.TOP,)
+                                    compound=tk.TOP,
+                                    bg='#ffefd5')
         btn_open_dialog.pack(side=tk.LEFT)
 
     def open_dialog(self):
