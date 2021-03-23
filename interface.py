@@ -1,4 +1,4 @@
-# this file need to create an interface for my app
+# this file needs to create an interface for my app
 import tkinter as tk
 
 
