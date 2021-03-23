@@ -35,6 +35,7 @@ class MainWindow(tk.Frame):
 
 if __name__ == "__main__":
     root = tk.Tk()
+    root["bg"] = "#FFFAFA"
     app = MainWindow(root)
     app.pack()
     root.title("Hospital")
