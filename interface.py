@@ -12,7 +12,7 @@ class MainWindow(tk.Frame):
         toolbar.pack(side=tk.TOP, fill=tk.X)
         btn_open_dialog = tk.Button(toolbar,
                                     text='Записаться на прием',
-                                    command= lambda: self.open_dialog(),
+                                    command=lambda: self.open_dialog(),
                                     compound=tk.TOP,)
         btn_open_dialog.pack(side=tk.LEFT)
 
@@ -30,6 +30,7 @@ class MainWindow(tk.Frame):
             self.resizable(False, False)
             self.grab_set()
             self.focus_get()
+
 
 if __name__ == "__main__":
     root = tk.Tk()
