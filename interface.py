@@ -27,7 +27,7 @@ class MainWindow(tk.Frame):
 
         def init_child(self):
             self.title('Запись на прием')
-            self.geometry("500x300+200+100")
+            self.geometry("500x300+400+300")
             self.resizable(False, False)
             self.grab_set()
             self.focus_get()
