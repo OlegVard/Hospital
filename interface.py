@@ -1,5 +1,6 @@
 # this file needs to create an interface for my app
 import tkinter as tk
+from tkinter import ttk
 
 
 class MainWindow(tk.Frame):
@@ -29,6 +30,28 @@ class MainWindow(tk.Frame):
             self.title('Запись на прием')
             self.geometry("500x300+400+300")
             self.resizable(False, False)
+
+            label_des = tk.Label(self, text='Время')
+            label_des.place(x=100, y=50)
+            label_doc = tk.Label(self, text='Имя доктора')
+            label_doc.place(x=100, y=100)
+            label_comb = tk.Label(self, text='Специальность')
+            label_comb.place(x=100, y=75)
+
+            self.entry_des = ttk.Entry(self)
+            self.entry_des.place(x=300, y=50)
+            self.entry_doc = ttk.Entry(self)
+            self.entry_doc.place(x=300, y=100)
+            self.combobox = ttk.Combobox(self, values=[u'Терапевт', u'Окулист'])
+            self.combobox.current(0)
+            self.combobox.place(x=300, y=75)
+
+            btn_conf = tk.Button(self, text='Записаться')
+            btn_conf.place(x=100, y=150)
+            btn_canc = tk.Button(self, text='Закрыть',
+                                 command=lambda: self.destroy())
+            btn_canc.place(x=300, y=150)
+
             self.grab_set()
             self.focus_get()
 
