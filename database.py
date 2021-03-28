@@ -9,3 +9,4 @@ class DB:
             '''CREATE TABLE IF NOT EXISTS timetable(CartNum integer primary key, date text, time text)'''
         )
         self.conn.commit()
+
