@@ -26,15 +26,30 @@ class BDAuth:
             '''CREATE TABLE IF NOT EXISTS paslog(login text primary key,
             password text, isdoctor int ) '''
         )
+
         self.connect.commit()
 
     def check_pass(self, login, password):
-    # добавить проверку на пустоту
-        self.c.execute(
-            '''SELECT * FROM paslog WHERE login = ?''', (login, ))
-        user = self.c.fetchone()
-        if password == user[1]:
-            if user[2] == 1:
-                return 'doc'
+        try:
+            self.c.execute(
+                '''SELECT * FROM paslog WHERE login = ?''', (login,))
+            user = self.c.fetchone()
+            if password == user[1]:
+                if user[2] == "Д":
+                    return 'doc'
+                elif user[2] == "П":
+                    return 'patient'
+                else:
+                    return "manager"
             else:
-                return 'patient'
+                return 0
+        except TypeError:
+            return 0
+
+    def register(self, login, password, spec):
+        self.c.execute(
+            '''INSERT INTO paslog(login, password, isdoctor) VALUES (?, ?, ?)''', (login, password, spec)
+        )
+        print('ok')
+        self.connect.commit()
+

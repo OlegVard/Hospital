@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from database import BDAuth
+import os
 
 
 class AuthWindow(tk.Frame):
@@ -11,24 +12,29 @@ class AuthWindow(tk.Frame):
 
     def init_auth_window(self):
         label_log = tk.Label(self, text='Логин')
-        label_log.grid(row=0, column=0)
+        label_log.pack()
         label_pass = tk.Label(self, text='Пароль')
-        label_pass.grid(row=1, column=0)
+        label_pass.pack()
         self.entry_log = ttk.Entry(self)
-        self.entry_log.grid(row=0, column=1)
+        self.entry_log.pack()
         self.entry_pass = ttk.Entry(self, show='*')
-        self.entry_pass.grid(row=1, column=1)
+        self.entry_pass.pack()
         self.conf_btn = tk.Button(text='Войти',
                                   command=lambda: self.sing_in(
                                       self.entry_log.get(),
                                       self.entry_pass.get()),
                                   bg='#ffefd5')
-        self.conf_btn.place(x=200, y=200)
+        self.conf_btn.place(x=220, y=200)
 
     def sing_in(self, login, password):
         is_doc = self.auth_db.check_pass(login, password)
         if is_doc == 'doc':
-            print('doc')
+            root.destroy()
+            os.system("python interface.py")  # подумать над этим
+        elif is_doc == 0:
+            label_err = tk.Label(self, text='Неверный логин или пароль')
+            label_err.pack(side=tk.BOTTOM)
+            label_err.after(2000, lambda: label_err.pack_forget())
 
 
 if __name__ == "__main__":
