@@ -52,4 +52,3 @@ class BDAuth:
         )
         print('ok')
         self.connect.commit()
-

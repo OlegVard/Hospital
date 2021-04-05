@@ -12,7 +12,7 @@ class AuthWindow(tk.Frame):
 
     def init_auth_window(self):
         label_log = tk.Label(self, text='Логин')
-        label_log.pack()
+        label_log.place(x=400, y=300)
         label_pass = tk.Label(self, text='Пароль')
         label_pass.pack()
         self.entry_log = ttk.Entry(self)
@@ -30,7 +30,7 @@ class AuthWindow(tk.Frame):
         is_doc = self.auth_db.check_pass(login, password)
         if is_doc == 'doc':
             root.destroy()
-            os.system("python interface.py")  # подумать над этим
+            os.system("python Doctor.py")  # подумать над этим
         elif is_doc == 0:
             label_err = tk.Label(self, text='Неверный логин или пароль')
             label_err.pack(side=tk.BOTTOM)

@@ -21,9 +21,9 @@ class Manager(tk.Frame):
 
     def register_user(self, login, password, spec):
         self.dataAuth.register(login, password, spec)
-        self.ok_lable = tk.Label(self, text="Успешно")
-        self.ok_lable.pack(side=tk.BOTTOM)
-        self.ok_lable.after(2000, lambda: self.ok_lable.pack_forget())
+        self.ok_label = tk.Label(self, text="Успешно")
+        self.ok_label.pack(side=tk.BOTTOM)
+        self.ok_label.after(2000, lambda: self.ok_label.pack_forget())
 
     def open_register(self):
         self.RegisterWindow()
@@ -31,10 +31,11 @@ class Manager(tk.Frame):
     class RegisterWindow(tk.Toplevel):
         def __init__(self):
             super().__init__(root)
-            self.init_registrWindow()
+            self.init_register_window()
             self.view = app
 
-        def init_registrWindow(self):
+        def init_register_window(self):
+            # добавить удаление пользователя и добавить именение пароля
             self.title('Регистраия пользователя')
             self.geometry("500x300+400+300")
             self.resizable(False, False)
