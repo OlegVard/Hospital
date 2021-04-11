@@ -50,5 +50,5 @@ class BDAuth:
         self.c.execute(
             '''INSERT INTO paslog(login, password, isdoctor) VALUES (?, ?, ?)''', (login, password, spec)
         )
-        print('ok')
         self.connect.commit()
+        return 0

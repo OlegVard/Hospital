@@ -20,8 +20,8 @@ class Manager(tk.Frame):
         btn_register.pack(side=tk.LEFT)
 
     def register_user(self, login, password, spec):
-        self.dataAuth.register(login, password, spec)
-        self.ok_label = tk.Label(self, text="Успешно")
+        self.response = self.dataAuth.register(login, password, spec)
+        self.ok_label = tk.Label(text="Успешно")
         self.ok_label.pack(side=tk.BOTTOM)
         self.ok_label.after(2000, lambda: self.ok_label.pack_forget())
 
@@ -36,7 +36,7 @@ class Manager(tk.Frame):
 
         def init_register_window(self):
             # добавить удаление пользователя и добавить именение пароля
-            self.title('Регистраия пользователя')
+            self.title('Регистрация пользователя')
             self.geometry("500x300+400+300")
             self.resizable(False, False)
 
@@ -70,7 +70,6 @@ class Manager(tk.Frame):
 
 root = tk.Tk()
 dbAuth = BDAuth()
-root["bg"] = "#FFFAFA"
 app = Manager(root)
 app.pack()
 root.title("Hospital")

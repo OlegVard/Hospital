@@ -68,7 +68,6 @@ class MainWindow(tk.Frame):
 
 root = tk.Tk()
 db = DB()
-root["bg"] = "#FFFAFA"
 app = MainWindow(root)
 app.pack()
 root.title("Hospital")
