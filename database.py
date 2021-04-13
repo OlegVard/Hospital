@@ -71,3 +71,17 @@ class BDAuth:
             return 0
         except TypeError:
             return -1
+
+    def del_user(self, login, password):
+        try:
+            self.c.execute(
+                '''SELECT * FROM paslog WHERE login=?''', (login,)
+            )
+            user = self.c.fetchone()
+            if user[1] == password:
+                self.c.execute(
+                    '''DELETE FROM paslog WHERE login=?''', (login,)
+                )
+                return 0
+        except TypeError:
+            return -1
