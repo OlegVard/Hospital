@@ -1,3 +1,4 @@
+# косметические правки
 import tkinter as tk
 from tkinter import ttk
 from database import BDAuth
@@ -25,6 +26,10 @@ class AuthWindow(tk.Frame):
                                       self.entry_pass.get()),
                                   bg='#ffefd5')
         self.conf_btn.place(x=225, y=200)
+        root.bind("<Return>", lambda event: self.sing_in(
+                            self.entry_log.get(),
+                            self.entry_pass.get()))
+        root.bind("<Escape>", lambda event: root.destroy())
 
     def sing_in(self, login, password):
         is_doc = self.auth_db.check_pass(login, password)
@@ -40,7 +45,7 @@ class AuthWindow(tk.Frame):
         elif is_doc == 0:
             label_err = tk.Label(root, text='Неверный логин или пароль')
             label_err.pack(side=tk.BOTTOM)
-            label_err.after(2000, lambda: label_err.pack_forget())
+            label_err.after(1000, lambda: label_err.pack_forget())
 
 
 if __name__ == "__main__":

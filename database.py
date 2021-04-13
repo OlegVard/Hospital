@@ -47,8 +47,27 @@ class BDAuth:
             return 0
 
     def register(self, login, password, spec):
-        self.c.execute(
-            '''INSERT INTO paslog(login, password, isdoctor) VALUES (?, ?, ?)''', (login, password, spec)
-        )
-        self.connect.commit()
-        return 0
+        try:
+            self.c.execute(
+                '''INSERT INTO paslog(login, password, isdoctor) VALUES (?, ?, ?)''', (login, password, spec)
+            )
+            self.connect.commit()
+            return 0
+        except sqlite3.IntegrityError:
+            return -1
+
+    def change_password(self, login, old_password, new_password):
+        try:
+            self.c.execute(
+                '''SELECT * FROM paslog WHERE login = ?''', (login,)
+            )
+            user = self.c.fetchone()
+            if user[1] == old_password:
+                self.c.execute(
+                    '''UPDATE paslog SET password=? WHERE login=?''',
+                    (new_password, login)
+                )
+            self.connect.commit()
+            return 0
+        except TypeError:
+            return -1

@@ -1,6 +1,9 @@
+# кнопка удаления пользователя или смены пароля
+# вывод врачей(кто работает, а кто нет)
+# добавить запись на прием
 import tkinter as tk
 from tkinter import ttk
-from database import BDAuth
+from database import BDAuth, DB
 
 
 class Manager(tk.Frame):
@@ -8,6 +11,7 @@ class Manager(tk.Frame):
         super().__init__(root)
         self.initManager()
         self.dataAuth = dbAuth
+        self.Hospital_data = Hospital_DB
 
     def initManager(self):
         manager_tool_bar = tk.Frame(bg='#d7d8e0', bd=2)
@@ -18,15 +22,40 @@ class Manager(tk.Frame):
                                  compound=tk.TOP,
                                  bg='#ffefd5')
         btn_register.pack(side=tk.LEFT)
+        btn_change_password = tk.Button(manager_tool_bar,
+                                        text='Сменить пароль',
+                                        command=lambda: self.open_change_password_window(),
+                                        compound=tk.TOP)
+        btn_change_password.pack(side=tk.LEFT)
 
     def register_user(self, login, password, spec):
-        self.response = self.dataAuth.register(login, password, spec)
-        self.ok_label = tk.Label(text="Успешно")
-        self.ok_label.pack(side=tk.BOTTOM)
-        self.ok_label.after(2000, lambda: self.ok_label.pack_forget())
+        response = self.dataAuth.register(login, password, spec)
+        if response == 0:
+            ok_label = tk.Label(text="Успешно")
+            ok_label.pack(side=tk.BOTTOM)
+            ok_label.after(2000, lambda: ok_label.pack_forget())
+        else:
+            error_lable = tk.Label(text="Пользователь с таким логином уже есть")
+            error_lable.pack(side=tk.BOTTOM)
+            error_lable.after(2000, lambda: error_lable.pack_forget())
+
+    def change_password(self, login, old_password, new_password):
+        response = self.dataAuth.change_password(login, old_password, new_password)
+        if response == 0:
+            ok_label = tk.Label(text="Успешно")
+            ok_label.pack(side=tk.BOTTOM)
+            ok_label.after(2000, lambda: ok_label.pack_forget())
+        else:
+            error_lable = tk.Label(text="Неверно введен логин или старый пароль")
+            error_lable.pack(side=tk.BOTTOM)
+            error_lable.after(2000, lambda: error_lable.pack_forget())
+        pass
 
     def open_register(self):
         self.RegisterWindow()
+
+    def open_change_password_window(self):
+        self.ChangePasswordWindow()
 
     class RegisterWindow(tk.Toplevel):
         def __init__(self):
@@ -35,7 +64,6 @@ class Manager(tk.Frame):
             self.view = app
 
         def init_register_window(self):
-            # добавить удаление пользователя и добавить именение пароля
             self.title('Регистрация пользователя')
             self.geometry("500x300+400+300")
             self.resizable(False, False)
@@ -60,8 +88,54 @@ class Manager(tk.Frame):
             btn_reg.bind('<Button-1>', lambda event: self.view.register_user(self.entry_log.get(),
                                                                              self.entry_pass.get(),
                                                                              self.combobox_spec.get()))
+            self.bind("<Return>", lambda event: self.view.register_user(self.entry_log.get(),
+                                                                        self.entry_pass.get(),
+                                                                        self.combobox_spec.get()))
             btn_canc = tk.Button(self, text='Закрыть',
                                  command=lambda: self.destroy())
+            self.bind("<Escape>", lambda event: self.destroy())
+            btn_canc.place(x=300, y=150)
+
+            self.grab_set()
+            self.focus_get()
+
+    class ChangePasswordWindow(tk.Toplevel):
+        def __init__(self):
+            super().__init__(root)
+            self.init_register_window()
+            self.view = app
+
+        def init_register_window(self):
+            # добавить удаление пользователя и добавить именение пароля
+            self.title('Смена пароля')
+            self.geometry("500x300+400+300")
+            self.resizable(False, False)
+
+            label_log = tk.Label(self, text='Логин')
+            label_log.place(x=100, y=50)
+            label_pass = tk.Label(self, text='Старый пароль')
+            label_pass.place(x=100, y=75)
+            label_spec = tk.Label(self, text='Новый пароль')
+            label_spec.place(x=100, y=100)
+
+            self.entry_log = ttk.Entry(self)
+            self.entry_log.place(x=300, y=50)
+            self.entry_Oldpass = ttk.Entry(self)
+            self.entry_Oldpass.place(x=300, y=75)
+            self.entry_Newpass = ttk.Entry(self)
+            self.entry_Newpass.place(x=300, y=100)
+
+            btn_reg = tk.Button(self, text='Сменить пароль')
+            btn_reg.place(x=100, y=150)
+            btn_reg.bind('<Button-1>', lambda event: self.view.change_password(self.entry_log.get(),
+                                                                               self.entry_Oldpass.get(),
+                                                                               self.entry_Newpass.get()))
+            self.bind("<Return>", lambda event: self.view.change_password(self.entry_log.get(),
+                                                                          self.entry_Oldpass.get(),
+                                                                          self.entry_Newpass.get()))
+            btn_canc = tk.Button(self, text='Закрыть',
+                                 command=lambda: self.destroy())
+            self.bind("<Escape>", lambda event: self.destroy())
             btn_canc.place(x=300, y=150)
 
             self.grab_set()
@@ -70,6 +144,7 @@ class Manager(tk.Frame):
 
 root = tk.Tk()
 dbAuth = BDAuth()
+Hospital_DB = DB()
 app = Manager(root)
 app.pack()
 root.title("Hospital")

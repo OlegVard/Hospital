@@ -1,10 +1,16 @@
-# this file needs to create an interface for my app
+# добавить: запиь на прием
+# вывод записанных на сегодня
+# выбор записанного
+# кнопка собрать анамнез и сохранить его
+# кнопка выписать рецепт
+# для вывода списка посещений использовать listbox
+
 import tkinter as tk
 from tkinter import ttk
 from database import DB
 
 
-class MainWindow(tk.Frame):
+class DocWindow(tk.Frame):
     def __init__(self, root):
         super().__init__(root)
         self.init_main()
@@ -61,6 +67,7 @@ class MainWindow(tk.Frame):
             btn_canc = tk.Button(self, text='Закрыть',
                                  command=lambda: self.destroy())
             btn_canc.place(x=300, y=150)
+            root.bind("<Escape>", lambda event: self.destroy())
 
             self.grab_set()
             self.focus_get()
@@ -68,7 +75,7 @@ class MainWindow(tk.Frame):
 
 root = tk.Tk()
 db = DB()
-app = MainWindow(root)
+app = DocWindow(root)
 app.pack()
 root.title("Hospital")
 root.geometry("700x500+300+200")
