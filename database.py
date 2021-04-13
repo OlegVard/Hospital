@@ -84,5 +84,7 @@ class BDAuth:
                 )
                 self.connect.commit()
                 return 0
+            else:
+                return -1
         except TypeError:
             return -1

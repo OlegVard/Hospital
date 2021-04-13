@@ -103,8 +103,8 @@ class Manager(tk.Frame):
             self.btn_reg = tk.Button(self, text='Зарегистрировать')
             self.btn_reg.place(x=100, y=150)
             self.btn_reg.bind('<Button-1>', lambda event: self.view.register_user(self.entry_log.get(),
-                                                                             self.entry_pass.get(),
-                                                                             self.combobox_spec.get()))
+                                                                                  self.entry_pass.get(),
+                                                                                  self.combobox_spec.get()))
             self.bind("<Return>", lambda event: self.view.register_user(self.entry_log.get(),
                                                                         self.entry_pass.get(),
                                                                         self.combobox_spec.get()))
@@ -116,47 +116,33 @@ class Manager(tk.Frame):
             self.grab_set()
             self.focus_get()
 
-    class ChangePasswordWindow(tk.Toplevel):
+    class ChangePasswordWindow(RegisterWindow):
         def __init__(self):
-            super().__init__(root)
+            super().__init__()
             self.init_change_password_window()
             self.view = app
 
         def init_change_password_window(self):
-            # добавить удаление пользователя и добавить именение пароля
             self.title('Смена пароля')
-            self.geometry("500x300+400+300")
-            self.resizable(False, False)
 
-            label_log = tk.Label(self, text='Логин')
-            label_log.place(x=100, y=50)
-            label_pass = tk.Label(self, text='Старый пароль')
-            label_pass.place(x=100, y=75)
             label_spec = tk.Label(self, text='Новый пароль')
             label_spec.place(x=100, y=100)
 
-            self.entry_log = ttk.Entry(self)
-            self.entry_log.place(x=300, y=50)
-            self.entry_Oldpass = ttk.Entry(self)
-            self.entry_Oldpass.place(x=300, y=75)
             self.entry_Newpass = ttk.Entry(self)
             self.entry_Newpass.place(x=300, y=100)
 
             btn_upd = tk.Button(self, text='Сменить пароль')
             btn_upd.place(x=100, y=150)
             btn_upd.bind('<Button-1>', lambda event: self.view.change_password(self.entry_log.get(),
-                                                                               self.entry_Oldpass.get(),
+                                                                               self.entry_pass.get(),
                                                                                self.entry_Newpass.get()))
             self.bind("<Return>", lambda event: self.view.change_password(self.entry_log.get(),
-                                                                          self.entry_Oldpass.get(),
+                                                                          self.entry_pass.get(),
                                                                           self.entry_Newpass.get()))
-            btn_canc = tk.Button(self, text='Закрыть',
-                                 command=lambda: self.destroy())
-            self.bind("<Escape>", lambda event: self.destroy())
-            btn_canc.place(x=300, y=150)
 
-            self.grab_set()
-            self.focus_get()
+            self.btn_reg.destroy()
+            self.label_spec.destroy()
+            self.combobox_spec.destroy()
 
     class DelWindow(RegisterWindow):
         def __init__(self):
@@ -170,10 +156,11 @@ class Manager(tk.Frame):
             btn_del.place(x=120, y=150)
             btn_del.bind("<Button-1>", lambda event: self.view.del_user(self.entry_log.get(),
                                                                         self.entry_pass.get()))
+            self.bind("<Return>", lambda event: self.view.del_user(self.entry_log.get(),
+                                                                   self.entry_pass.get()))
             self.btn_reg.destroy()
             self.label_spec.destroy()
             self.combobox_spec.destroy()
-
 
 
 root = tk.Tk()
