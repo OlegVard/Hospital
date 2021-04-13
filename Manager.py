@@ -89,8 +89,8 @@ class Manager(tk.Frame):
             label_log.place(x=100, y=50)
             label_pass = tk.Label(self, text='Пароль')
             label_pass.place(x=100, y=75)
-            label_spec = tk.Label(self, text='Тип пользователя')
-            label_spec.place(x=100, y=100)
+            self.label_spec = tk.Label(self, text='Тип пользователя')
+            self.label_spec.place(x=100, y=100)
 
             self.entry_log = ttk.Entry(self)
             self.entry_log.place(x=300, y=50)
@@ -171,6 +171,9 @@ class Manager(tk.Frame):
             btn_del.bind("<Button-1>", lambda event: self.view.del_user(self.entry_log.get(),
                                                                         self.entry_pass.get()))
             self.btn_reg.destroy()
+            self.label_spec.destroy()
+            self.combobox_spec.destroy()
+
 
 
 root = tk.Tk()

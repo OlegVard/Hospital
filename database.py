@@ -82,6 +82,7 @@ class BDAuth:
                 self.c.execute(
                     '''DELETE FROM paslog WHERE login=?''', (login,)
                 )
+                self.connect.commit()
                 return 0
         except TypeError:
             return -1
