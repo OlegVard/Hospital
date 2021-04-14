@@ -1,15 +1,10 @@
 import sqlite3
 
 
-class DB:
+class DB: # база данных больницы
     def __init__(self):
         self.conn = sqlite3.connect('Hospital.db')
         self.c = self.conn.cursor()
-        self.c.execute(
-            '''CREATE TABLE IF NOT EXISTS timetable(spec text primary key, \
-            date text, time text)'''
-        )
-        self.conn.commit()
 
     def insert_data(self, spec, date, time):
         self.c.execute(

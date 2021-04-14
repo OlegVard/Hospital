@@ -128,17 +128,17 @@ class Manager(tk.Frame):
             label_spec = tk.Label(self, text='Новый пароль')
             label_spec.place(x=100, y=100)
 
-            self.entry_Newpass = ttk.Entry(self)
-            self.entry_Newpass.place(x=300, y=100)
+            entry_new_pass = ttk.Entry(self)
+            entry_new_pass.place(x=300, y=100)
 
             btn_upd = tk.Button(self, text='Сменить пароль')
             btn_upd.place(x=100, y=150)
             btn_upd.bind('<Button-1>', lambda event: self.view.change_password(self.entry_log.get(),
                                                                                self.entry_pass.get(),
-                                                                               self.entry_Newpass.get()))
+                                                                               entry_new_pass.get()))
             self.bind("<Return>", lambda event: self.view.change_password(self.entry_log.get(),
                                                                           self.entry_pass.get(),
-                                                                          self.entry_Newpass.get()))
+                                                                          entry_new_pass.get()))
 
             self.btn_reg.destroy()
             self.label_spec.destroy()
