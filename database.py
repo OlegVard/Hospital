@@ -1,17 +1,21 @@
 import sqlite3
 
 
-class DB: # база данных больницы
+class DB:  # база данных больницы
     def __init__(self):
         self.conn = sqlite3.connect('Hospital.db')
         self.c = self.conn.cursor()
 
-    def insert_data(self, spec, date, time):
+    def get_records(self, login):
         self.c.execute(
-            '''INSERT INTO timetable(spec, date, time) VALUES (?, ?, ?)''', (spec, date, time)
+            '''SELECT ID, Patient, Time, FIO 
+                        FROM records INNER JOIN patients
+                        ON records.Patient = patients.Patient_login
+                        WHERE Doctor=?''',
+            (login,)
         )
-        self.conn.commit()
-
+        pat_list = self.c.fetchall()
+        return pat_list
 
 class BDAuth:
     def __init__(self):
