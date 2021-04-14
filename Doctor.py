@@ -15,6 +15,12 @@ class DocWindow(tk.Frame):
         super().__init__(root)
         self.init_main()
         self.db = db
+        f = open("log.txt", 'r')
+        self.work_login = f.readline()
+        f.close()
+        f = open("log.txt", 'w')
+        f.write('')
+        f.close()
 
     def init_main(self):
         toolbar = tk.Frame(bg='#d7d8e0', bd=2)
