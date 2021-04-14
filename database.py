@@ -6,16 +6,45 @@ class DB:  # база данных больницы
         self.conn = sqlite3.connect('Hospital.db')
         self.c = self.conn.cursor()
 
-    def get_records(self, login):
+    def get_doc_records(self, login):
         self.c.execute(
             '''SELECT ID, Patient, Time, FIO 
                         FROM records INNER JOIN patients
                         ON records.Patient = patients.Patient_login
-                        WHERE Doctor=?''',
-            (login,)
+                        WHERE Doctor=?''', (login,)
         )
         pat_list = self.c.fetchall()
         return pat_list
+
+    def get_past_records(self, login):
+        self.c.execute(
+            '''SELECT id_app, Date, Time, diagnosis, FIO 
+             FROM appointments INNER JOIN doctors
+             ON appointments.Doctor = doctors.Doc_login
+             WHERE Patient=?''', (login,)
+        )
+        app_list = self.c.fetchall()
+        return app_list
+
+    def get_fut_records(self, login):
+        self.c.execute(
+            '''SELECT ID, Date, Time, FIO, room 
+             FROM records INNER JOIN doctors
+             ON records.Doctor = doctors.Doc_login
+             WHERE Patient=?''', (login,)
+        )
+        app_list = self.c.fetchall()
+        return app_list
+
+    def get_treatment(self, id):
+        self.c.execute(
+            '''SELECT treatment 
+            FROM appointments
+            WHERE id_app = ?''', (id,)
+        )
+        treatment = self.c.fetchone()
+        return treatment
+
 
 class BDAuth:
     def __init__(self):

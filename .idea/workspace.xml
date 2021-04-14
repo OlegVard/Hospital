@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="801edeaf-b2bf-4b26-92cc-738278f61b0b" name="Default Changelist" comment="create db for hospital">
+    <list default="true" id="801edeaf-b2bf-4b26-92cc-738278f61b0b" name="Default Changelist" comment="create doctor interface">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Doctor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Doctor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Hospital.db" beforeDir="false" afterPath="$PROJECT_DIR$/Hospital.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Patient.py" beforeDir="false" afterPath="$PROJECT_DIR$/Patient.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Users.db" beforeDir="false" afterPath="$PROJECT_DIR$/Users.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,7 +51,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
-  <component name="RunManager" selected="Python.Doctor">
+  <component name="RunManager" selected="Python.AuthWindow">
     <configuration name="AuthWindow" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Hospital" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -113,6 +115,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Patient" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Hospital" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Patient.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="database" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Hospital" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -136,9 +159,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.AuthWindow" />
+        <item itemvalue="Python.Patient" />
         <item itemvalue="Python.Doctor" />
         <item itemvalue="Python.Manager" />
-        <item itemvalue="Python.AuthWindow" />
         <item itemvalue="Python.database" />
       </list>
     </recent_temporary>
@@ -306,7 +330,14 @@
       <option name="project" value="LOCAL" />
       <updated>1618411602433</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="create doctor interface">
+      <created>1618415644708</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1618415644708</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -355,6 +386,7 @@
     <MESSAGE value="del_user" />
     <MESSAGE value="nastroika nasledovania" />
     <MESSAGE value="create db for hospital" />
-    <option name="LAST_COMMIT_MESSAGE" value="create db for hospital" />
+    <MESSAGE value="create doctor interface" />
+    <option name="LAST_COMMIT_MESSAGE" value="create doctor interface" />
   </component>
 </project>

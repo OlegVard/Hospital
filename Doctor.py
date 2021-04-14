@@ -31,21 +31,20 @@ class DocWindow(tk.Frame):
                                     compound=tk.TOP,
                                     bg='#ffefd5')
         btn_open_dialog.pack(side=tk.LEFT)
-        self.tree = ttk.Treeview(self, columns=('ID', 'FIO', 'Time', 'Login'), heigh=15, show='headings')
+        self.tree = ttk.Treeview(self, columns=('ID', 'Login', 'Time', 'FIO'), heigh=15, show='headings')
         self.tree.column('ID', width=300, anchor=tk.CENTER)
-        self.tree.column('FIO', width=350, anchor=tk.CENTER)
+        self.tree.column('Login', width=350, anchor=tk.CENTER)
         self.tree.column('Time', width=200, anchor=tk.CENTER)
-        self.tree.column('Login', width=200, anchor=tk.CENTER)
+        self.tree.column('FIO', width=200, anchor=tk.CENTER)
         self.tree.heading('ID', text='Номер посещения')
-        self.tree.heading('FIO', text='Логин')
+        self.tree.heading('Login', text='Логин')
         self.tree.heading('Time', text='Время')
-        self.tree.heading('Login', text='ФИО пациента')
+        self.tree.heading('FIO', text='ФИО пациента')
         self.tree.pack()
 
     def view_records(self, login):
-        pat_list = self.db.get_records(login)
+        pat_list = self.db.get_doc_records(login)
         [self.tree.insert('', 'end', values=row) for row in pat_list]
-
 
     def open_dialog(self):
         self.Child()
