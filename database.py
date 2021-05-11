@@ -36,17 +36,17 @@ class DB:  # база данных больницы
         app_list = self.c.fetchall()
         return app_list
 
-    def get_treatment(self, id):
+    def get_treatment(self, app_id):
         self.c.execute(
             '''SELECT treatment 
             FROM appointments
-            WHERE id_app = ?''', (id,)
+            WHERE id_app = ?''', (app_id,)
         )
         treatment = self.c.fetchone()
         return treatment
 
 
-class BDAuth:
+class BDAuth:   # база данных авторизации
     def __init__(self):
         self.connect = sqlite3.connect('Users.db')
         self.c = self.connect.cursor()

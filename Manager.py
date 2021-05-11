@@ -1,5 +1,7 @@
-# !!!!!!вывод врачей(кто работает, а кто нет) или что-то другое
+# при регистриции сделать ввод данных для врачей и пациентов
+# вывод расписания(либо посещений, либо еще чего-то)
 # добавить запись на прием
+from datetime import datetime
 import tkinter as tk
 from tkinter import ttk
 from database import BDAuth, DB
@@ -17,7 +19,7 @@ class Manager(tk.Frame):
         manager_tool_bar.pack(side=tk.TOP, fill=tk.X)
         btn_register = tk.Button(manager_tool_bar,
                                  text='Зарегистрировать',
-                                 command=lambda: self.open_register(),
+                                 command=lambda: self.open_register_window(),
                                  compound=tk.TOP,
                                  bg='#ffefd5')
         btn_register.pack(side=tk.LEFT)
@@ -65,7 +67,7 @@ class Manager(tk.Frame):
             error_label.pack(side=tk.BOTTOM)
             error_label.after(2000, lambda: error_label.pack_forget())
 
-    def open_register(self):
+    def open_register_window(self):
         self.RegisterWindow()
 
     def open_change_password_window(self):
@@ -164,6 +166,8 @@ class Manager(tk.Frame):
 
 
 root = tk.Tk()
+time_table = datetime.today()
+week_day = time_table.weekday()
 dbAuth = BDAuth()
 Hospital_DB = DB()
 app = Manager(root)

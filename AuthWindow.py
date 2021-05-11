@@ -1,4 +1,3 @@
-# косметические правки
 import tkinter as tk
 from tkinter import ttk
 from database import BDAuth
@@ -10,7 +9,6 @@ class AuthWindow(tk.Frame):
         super().__init__(root)
         self.init_auth_window()
         self.auth_db = auth_db
-
 
     def init_auth_window(self):
         label_log = tk.Label(text='Логин')

@@ -1,4 +1,3 @@
-# для вывода списка посещений использовать listbox
 import tkinter as tk
 from tkinter import ttk
 from database import DB
@@ -43,7 +42,7 @@ class PatientWindow(tk.Frame):
         self.tree_past.heading('FIO', text='ФИО Врача')
         self.tree_past.place(x=0, y=55)
 
-        past_label = tk.Label(text='Предидущие посещения')
+        past_label = tk.Label(text='Предыдущие посещения')
         past_label.place(x=0, y=30)
 
         self.tree_fut = ttk.Treeview(columns=('ID', 'Date', 'Time', 'FIO', 'Room'), heigh=14, show='headings')
