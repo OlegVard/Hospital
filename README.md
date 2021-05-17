@@ -1,2 +1,2 @@
 # Hospital
-Soft for hospital(course project)
+Soft for hospital(курсач)
