@@ -15,7 +15,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_del_user(self):
         db = BDAuth()
-        self.assertEqual(db.del_user('doc1', 'docpass1'), 0)
+        self.assertEqual(db.del_user('pat2', 'patpass2'), 0)
 
 
 if __name__ == '__main__':
