@@ -36,4 +36,4 @@ if a < b:
 else:
     print('Error')
 
-print('Новый пользователь:', ret_new_user(log))
+print('New user:', ret_new_user(log))

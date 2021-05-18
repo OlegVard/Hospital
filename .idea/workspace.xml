@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="801edeaf-b2bf-4b26-92cc-738278f61b0b" name="Default Changelist" comment="try test">
-      <change beforePath="$PROJECT_DIR$/test/Test1.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Test1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Users.db" beforeDir="false" afterPath="$PROJECT_DIR$/test/Users.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/integ_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/integ_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -369,7 +368,21 @@
       <option name="project" value="LOCAL" />
       <updated>1621342795180</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="try test">
+      <created>1621342967154</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1621342967154</updated>
+    </task>
+    <task id="LOCAL-00031" summary="try test">
+      <created>1621343042661</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1621343042661</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
