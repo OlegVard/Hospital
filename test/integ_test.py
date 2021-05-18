@@ -1,4 +1,4 @@
-from database import BDAuth
+from database1 import BDAuth
 
 
 def check_count():
