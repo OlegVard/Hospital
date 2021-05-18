@@ -1,14 +1,6 @@
 from database1 import BDAuth
 
 
-def check_count():
-    db = BDAuth()
-    db.c.execute(
-        ''' SELECT * FROM paslog'''
-    )
-    return len(db.c.fetchall())
-
-
 def ret_new_user(login):
     db = BDAuth()
     db.c.execute(
@@ -22,18 +14,8 @@ def ins_data(login, password, spec):
     db.register(login, password, spec)
 
 
-a = check_count()
-
 log = 'pat2'
 pas = 'patpass2'
 spec = 'Д'
-
-ins_data(log, pas, spec)
-
-b = check_count()
-if a < b:
-    print('Ok')
-else:
-    print('Error')
 
 print('New user:', ret_new_user(log))
