@@ -1,5 +1,5 @@
 import unittest
-from database1 import BDAuth
+from database import BDAuth
 
 
 class MyTestCase(unittest.TestCase):
