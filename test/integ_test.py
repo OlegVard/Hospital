@@ -18,4 +18,6 @@ log = 'pat2'
 pas = 'patpass2'
 spec = 'Д'
 
+ins_data(log, pas, spec)
+
 print('New user:', ret_new_user(log))
