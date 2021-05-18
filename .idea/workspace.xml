@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="801edeaf-b2bf-4b26-92cc-738278f61b0b" name="Default Changelist" comment="test TS">
-      <change afterPath="$PROJECT_DIR$/test/Test1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/integ_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="801edeaf-b2bf-4b26-92cc-738278f61b0b" name="Default Changelist" comment="tesе">
+      <change beforePath="$PROJECT_DIR$/test/integ_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/integ_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -343,7 +341,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620739812627</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="tesе">
+      <created>1621340727805</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1621340727805</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -396,7 +401,8 @@
     <MESSAGE value="create patient interface" />
     <MESSAGE value="some changes" />
     <MESSAGE value="test TS" />
-    <option name="LAST_COMMIT_MESSAGE" value="test TS" />
+    <MESSAGE value="tesе" />
+    <option name="LAST_COMMIT_MESSAGE" value="tesе" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

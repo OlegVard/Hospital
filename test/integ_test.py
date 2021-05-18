@@ -24,9 +24,9 @@ def ins_data(login, password, spec):
 
 a = check_count()
 
-log = input()
-pas = input()
-spec = input()
+log = 'pat2'
+pas = 'patpass2'
+spec = 'Д'
 
 ins_data(log, pas, spec)
 
