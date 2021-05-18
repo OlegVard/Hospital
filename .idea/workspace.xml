@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="801edeaf-b2bf-4b26-92cc-738278f61b0b" name="Default Changelist" comment="tesе">
+    <list default="true" id="801edeaf-b2bf-4b26-92cc-738278f61b0b" name="Default Changelist" comment="test">
+      <change afterPath="$PROJECT_DIR$/test/Users.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/database1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Test1.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/Test1.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/integ_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/integ_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +50,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/test" />
     <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\projects\Hospital\test" />
+    </key>
   </component>
   <component name="RunManager" selected="Python.integ_test">
     <configuration name="AuthWindow" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -348,7 +358,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621340727805</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="test">
+      <created>1621341022579</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1621341022579</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -402,7 +419,8 @@
     <MESSAGE value="some changes" />
     <MESSAGE value="test TS" />
     <MESSAGE value="tesе" />
-    <option name="LAST_COMMIT_MESSAGE" value="tesе" />
+    <MESSAGE value="test" />
+    <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
