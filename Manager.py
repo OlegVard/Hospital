@@ -1,7 +1,5 @@
 # при регистриции сделать ввод данных для врачей и пациентов
 # вывод расписания(либо посещений, либо еще чего-то)
-# добавить запись на прием
-# обавить удаление посещений
 from datetime import datetime
 import tkinter as tk
 from tkinter import ttk
@@ -38,6 +36,11 @@ class Manager(tk.Frame):
                                  command=lambda: self.open_appointment_window(),
                                  compound=tk.TOP)
         btn_make_app.pack(side=tk.LEFT)
+        btn_del_app = tk.Button(manager_tool_bar,
+                                text='Удалить запись на прием',
+                                command=lambda: self.open_delete_appointment_window(),
+                                compound=tk.TOP)
+        btn_del_app.pack(side=tk.LEFT)
 
     def open_appointment_window(self):
         self.MakeAppointment()
@@ -50,6 +53,9 @@ class Manager(tk.Frame):
 
     def open_del_window(self):
         self.DelWindow()
+
+    def open_delete_appointment_window(self):
+        self.DeleteAppointment()
 
     class RegisterWindow(tk.Toplevel):
         def __init__(self):
@@ -152,9 +158,9 @@ class Manager(tk.Frame):
             btn_del = tk.Button(self, text='Удалить')
             btn_del.place(x=120, y=150)
             btn_del.bind("<Button-1>", lambda event: self.del_user(self.entry_log.get(),
-                                                                        self.entry_pass.get()))
-            self.bind("<Return>", lambda event: self.del_user(self.entry_log.get(),
                                                                    self.entry_pass.get()))
+            self.bind("<Return>", lambda event: self.del_user(self.entry_log.get(),
+                                                              self.entry_pass.get()))
             self.btn_reg.destroy()
             self.label_spec.destroy()
             self.combobox_spec.destroy()
@@ -174,7 +180,6 @@ class Manager(tk.Frame):
         def __init__(self):
             super().__init__(root)
             self.init_appoint_window()
-            self.view = app
             self.db = Hospital_DB
 
         def init_appoint_window(self):
@@ -234,6 +239,55 @@ class Manager(tk.Frame):
                 r_label = tk.Label(self, text='Ошибка')
                 r_label.pack(side=tk.BOTTOM)
                 r_label.after(2000, lambda: r_label.pack_forget())
+
+    class DeleteAppointment(tk.Toplevel):
+        def __init__(self):
+            super().__init__()
+            self.init_delete_appoint_window()
+            self.db = Hospital_DB
+
+        def init_delete_appoint_window(self):
+            self.title('Удалить запись на прием')
+            self.geometry("600x450+200+100")
+            self.resizable(False, False)
+
+            date_label = tk.Label(self, text='Дата')
+            date_label.place(x=150, y=10)
+            date = tk.Entry(self)
+            date.place(x=200, y=10)
+            doc_label = tk.Label(self, text='Логин доктора')
+            doc_label.place(x=100, y=30)
+            doc = tk.Entry(self)
+            doc.place(x=200, y=30)
+            btn_sort = tk.Button(self, text='Вывести записи')
+            btn_sort.bind('<Button-1>', lambda event: self.view_appointments_num(date.get(),
+                                                                                 doc.get()))
+            btn_sort.place(x=350, y=10)
+            self.tree = ttk.Treeview(self, columns=('ID', 'Time', 'Patient'), heigh=15, show='headings')
+            self.tree.column('ID', width=150, anchor=tk.CENTER)
+            self.tree.column('Time', width=150, anchor=tk.CENTER)
+            self.tree.column('Patient', width=150, anchor=tk.CENTER)
+            self.tree.heading('ID', text='Номер посещения')
+            self.tree.heading('Time', text='Время')
+            self.tree.heading('Patient', text='Пациент')
+            self.tree.place(x=40, y=60)
+
+            btn_del = tk.Button(self, text='Удалить запись')
+            btn_del.place(x=500, y=10)
+            btn_del.bind('<Button-1>',
+                         lambda event: self.delete_appoint(self.tree.set(self.tree.selection()[0], '#1')))
+
+        def delete_appoint(self, number):
+            self.db.del_appointment(number)
+            ok_label = tk.Label(self, text="Успешно")
+            ok_label.pack(side=tk.BOTTOM)
+            ok_label.after(2000, lambda: ok_label.pack_forget())
+
+        def view_appointments_num(self, date, doc):
+            rec_list = self.db.get_appointments_num(date, doc)
+            [self.tree.delete(i) for i in self.tree.get_children()]
+            [self.tree.insert('', 'end', values=row) for row in rec_list]
+            pass
 
 
 root = tk.Tk()

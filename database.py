@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 
 
 class DB:  # база данных больницы
@@ -6,12 +7,14 @@ class DB:  # база данных больницы
         self.conn = sqlite3.connect('Hospital.db')
         self.c = self.conn.cursor()
 
-    def get_doc_records(self, login):
+    def get_doc_records(self, login, ):
+        date = datetime.date(datetime.today())
+        s_date = str(date.day) + '.' + str(date.month) + '.' + str(date.year)[-2:]
         self.c.execute(
             '''SELECT ID, Patient, Time, FIO 
                         FROM records INNER JOIN patients
                         ON records.Patient = patients.Patient_login
-                        WHERE Doctor=?''', (login,)
+                        WHERE Doctor=? AND Date =?''', (login, s_date)
         )
         pat_list = self.c.fetchall()
         return pat_list
@@ -66,6 +69,22 @@ class DB:  # база данных больницы
             return 0
         except sqlite3.IntegrityError:
             return -1
+
+    def del_appointment(self, number):
+        self.c.execute(
+            '''DELETE FROM records WHERE ID=?''', (number,)
+        )
+        self.conn.commit()
+
+    def get_appointments_num(self, date, doc):
+        self.c.execute(
+            '''SELECT ID, Time, Patient
+            FROM records 
+            WHERE Date=? AND Doctor=?''',
+            (date, doc)
+        )
+        appointments = self.c.fetchall()
+        return appointments
 
 
 class BDAuth:   # база данных авторизации
