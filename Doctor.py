@@ -80,7 +80,6 @@ class Doctor(tk.Frame):
 
             btn_conf = tk.Button(self, text='Записать')
             btn_conf.place(x=100, y=150)
-            #btn_conf.bind('<Button-1>', lambda event: pass)
 
             btn_canc = tk.Button(self, text='Закрыть',
                                  command=lambda: self.destroy())

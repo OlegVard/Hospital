@@ -21,8 +21,7 @@ class Manager(tk.Frame):
         btn_register = tk.Button(manager_tool_bar,
                                  text='Зарегистрировать',
                                  command=lambda: self.open_register_window(),
-                                 compound=tk.TOP,
-                                 bg='#ffefd5')
+                                 compound=tk.TOP)
         btn_register.pack(side=tk.LEFT)
         btn_change_password = tk.Button(manager_tool_bar,
                                         text='Сменить пароль',
@@ -34,6 +33,11 @@ class Manager(tk.Frame):
                             command=lambda: self.open_del_window(),
                             compound=tk.TOP)
         btn_del.pack(side=tk.LEFT)
+        btn_make_app = tk.Button(manager_tool_bar,
+                                 text='Запись на прием',
+                                 command=lambda: self.open_appointment_window(),
+                                 compound=tk.TOP)
+        btn_make_app.pack(side=tk.LEFT)
 
     def register_user(self, login, password, spec):
         response = self.dataAuth.register(login, password, spec)
@@ -53,7 +57,7 @@ class Manager(tk.Frame):
             ok_label.pack(side=tk.BOTTOM)
             ok_label.after(2000, lambda: ok_label.pack_forget())
         else:
-            error_label = tk.Label(text="Неверно введен логин или старый пароль")
+            error_label = tk.Label(text="Неверно введен логин, старый пароль или новый пароль")
             error_label.pack(side=tk.BOTTOM)
             error_label.after(2000, lambda: error_label.pack_forget())
 
@@ -67,6 +71,9 @@ class Manager(tk.Frame):
             error_label = tk.Label(text="Неверно введен логин или пароль")
             error_label.pack(side=tk.BOTTOM)
             error_label.after(2000, lambda: error_label.pack_forget())
+
+    def open_appointment_window(self):
+        self.MakeAppointment()
 
     def open_register_window(self):
         self.RegisterWindow()
@@ -164,6 +171,71 @@ class Manager(tk.Frame):
             self.btn_reg.destroy()
             self.label_spec.destroy()
             self.combobox_spec.destroy()
+
+    class MakeAppointment(tk.Toplevel):
+        def __init__(self):
+            super().__init__(root)
+            self.init_appoint_window()
+            self.view = app
+            self.db = Hospital_DB
+
+        def init_appoint_window(self):
+            self.title('Запись на прием')
+            self.geometry("800x450+200+100")
+            self.resizable(False, False)
+
+            date_label = tk.Label(self, text='Дата')
+            date_label.place(x=150, y=10)
+            date = tk.Entry(self)
+            date.place(x=200, y=10)
+            doc_label = tk.Label(self, text='Логин доктора')
+            doc_label.place(x=100, y=30)
+            doc = tk.Entry(self)
+            doc.place(x=200, y=30)
+            btn_sort = tk.Button(self, text='Вывести записи')
+            btn_sort.bind('<Button-1>', lambda event: self.view_appointments(date.get(),
+                                                                             doc.get()))
+            btn_sort.place(x=400, y=10)
+            self.tree = ttk.Treeview(self, columns=('Time', 'Patient'), heigh=15, show='headings')
+            self.tree.column('Time', width=200, anchor=tk.CENTER)
+            self.tree.column('Patient', width=200, anchor=tk.CENTER)
+            self.tree.heading('Time', text='Время')
+            self.tree.heading('Patient', text='Пациент')
+            self.tree.place(x=50, y=60)
+
+            time_label = tk.Label(self, text='Время')
+            pat_label = tk.Label(self, text='Логин пациента')
+            time_label.place(x=510, y=50)
+            pat_label.place(x=510, y=80)
+            btn_add_appoint = tk.Button(self, text='Записать')
+            btn_add_appoint.place(x=510, y=105)
+            time_entry = tk.Entry(self)
+            pat_entry = tk.Entry(self)
+            time_entry.place(x=610, y=50)
+            pat_entry.place(x=610, y=80)
+            btn_add_appoint.bind('<Button-1>', lambda event: self.add_appoint(doc.get(),
+                                                                              pat_entry.get(),
+                                                                              time_entry.get(),
+                                                                              date.get()))
+
+            self.grab_set()
+            self.focus_get()
+
+        def view_appointments(self, date, doc):
+            rec_list = self.db.get_appointments(date, doc)
+            [self.tree.delete(i) for i in self.tree.get_children()]
+            [self.tree.insert('', 'end', values=row) for row in rec_list]
+
+        def add_appoint(self, doc, pat, time, date):
+            response = self.db.add_appointment(doc, pat, time, date)
+            if response == 0:
+                r_label = tk.Label(self, text='Успешно')
+                r_label.pack(side=tk.BOTTOM)
+                r_label.after(2000, lambda: r_label.pack_forget())
+            else:
+                r_label = tk.Label(self, text='Ошибка')
+                r_label.pack(side=tk.BOTTOM)
+                r_label.after(2000, lambda: r_label.pack_forget())
 
 
 root = tk.Tk()

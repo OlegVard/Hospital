@@ -45,6 +45,28 @@ class DB:  # база данных больницы
         treatment = self.c.fetchone()
         return treatment
 
+    def get_appointments(self, date, doc):
+        self.c.execute(
+            '''SELECT Time, Patient
+            FROM records 
+            WHERE Date=? AND Doctor=?''',
+            (date, doc)
+        )
+        appointments = self.c.fetchall()
+        return appointments
+
+    def add_appointment(self, doc, pat, time, date):
+        try:
+            self.c.execute(
+                '''INSERT INTO records(Doctor, Patient, Time, Date) 
+                VALUES (?, ?, ?, ?)''',
+                (doc, pat, time, date)
+            )
+            self.conn.commit()
+            return 0
+        except sqlite3.IntegrityError:
+            return -1
+
 
 class BDAuth:   # база данных авторизации
     def __init__(self):
@@ -87,7 +109,7 @@ class BDAuth:   # база данных авторизации
     def change_password(self, login, old_password, new_password):
         try:
             self.c.execute(
-                '''SELECT * FROM paslog WHERE login = ?''', (login,)
+                '''SELECT Time, Patient  FROM paslog WHERE login = ?''', (login,)
             )
             user = self.c.fetchone()
             if user[1] == old_password:
