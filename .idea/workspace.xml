@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="801edeaf-b2bf-4b26-92cc-738278f61b0b" name="Default Changelist" comment="try test">
+    <list default="true" id="801edeaf-b2bf-4b26-92cc-738278f61b0b" name="Default Changelist" comment="add make_appointments">
       <change afterPath="$PROJECT_DIR$/test1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Doctor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Doctor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hospital.db" beforeDir="false" afterPath="$PROJECT_DIR$/Hospital.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/Manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -422,7 +418,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621343940665</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="add make_appointments">
+      <created>1622976676942</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1622976676942</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -478,7 +481,8 @@
     <MESSAGE value="tesе" />
     <MESSAGE value="test" />
     <MESSAGE value="try test" />
-    <option name="LAST_COMMIT_MESSAGE" value="try test" />
+    <MESSAGE value="add make_appointments" />
+    <option name="LAST_COMMIT_MESSAGE" value="add make_appointments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

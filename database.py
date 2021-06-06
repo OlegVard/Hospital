@@ -109,7 +109,7 @@ class BDAuth:   # база данных авторизации
     def change_password(self, login, old_password, new_password):
         try:
             self.c.execute(
-                '''SELECT Time, Patient  FROM paslog WHERE login = ?''', (login,)
+                '''SELECT Login, Password  FROM paslog WHERE login = ?''', (login,)
             )
             user = self.c.fetchone()
             if user[1] == old_password:
