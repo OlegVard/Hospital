@@ -1,4 +1,3 @@
-# при регистриции сделать ввод данных для врачей и пациентов
 # вывод расписания(либо посещений, либо еще чего-то)
 from datetime import datetime
 import tkinter as tk
@@ -12,15 +11,21 @@ class Manager(tk.Frame):
         self.initManager()
         self.dataAuth = dbAuth
         self.Hospital_data = Hospital_DB
+        self.get_trees_view()
 
     def initManager(self):
         manager_tool_bar = tk.Frame(bg='#d7d8e0', bd=2)
         manager_tool_bar.pack(side=tk.TOP, fill=tk.X)
-        btn_register = tk.Button(manager_tool_bar,
-                                 text='Зарегистрировать',
-                                 command=lambda: self.open_register_window(),
-                                 compound=tk.TOP)
-        btn_register.pack(side=tk.LEFT)
+        btn_register_pat = tk.Button(manager_tool_bar,
+                                     text='Зарегистрировать пацитента',
+                                     command=lambda: self.open_pat_register_window(),
+                                     compound=tk.TOP)
+        btn_register_pat.pack(side=tk.LEFT)
+        btn_register_doc = tk.Button(manager_tool_bar,
+                                     text='Зарегистрировать врача',
+                                     command=lambda: self.open_doc_register_window(),
+                                     compound=tk.TOP)
+        btn_register_doc.pack(side=tk.LEFT)
         btn_change_password = tk.Button(manager_tool_bar,
                                         text='Сменить пароль',
                                         command=lambda: self.open_change_password_window(),
@@ -41,12 +46,63 @@ class Manager(tk.Frame):
                                 command=lambda: self.open_delete_appointment_window(),
                                 compound=tk.TOP)
         btn_del_app.pack(side=tk.LEFT)
+        btn_get_pat_data = tk.Button(text='Показать данные пациента',
+                                     command=lambda: self.get_patient_data(
+                                         self.pat_tree.set(self.pat_tree.selection()[0], '#1')),
+                                     compound=tk.TOP)
+        btn_get_pat_data.place(x=10, y=30)
+        btn_refresh = tk.Button(manager_tool_bar,
+                                text='Обновить данные',
+                                command=lambda: self.get_trees_view(),
+                                compound=tk.TOP)
+        btn_refresh.pack(side=tk.RIGHT)
+
+        self.pat_tree = ttk.Treeview(columns=('Login', 'Name'), heigh=35, show='headings')
+        self.pat_tree.column('Login', width=200, anchor=tk.CENTER)
+        self.pat_tree.column('Name', width=200, anchor=tk.CENTER)
+        self.pat_tree.heading('Login', text='Логин пациента')
+        self.pat_tree.heading('Name', text='Имя пациента')
+        self.pat_tree.place(x=10, y=70)
+
+        self.doc_tree = ttk.Treeview(columns=('Login', 'Name', 'Spec', 'Room'), heigh=35, show='headings')
+        self.doc_tree.column('Login', width=150, anchor=tk.CENTER)
+        self.doc_tree.column('Name', width=150, anchor=tk.CENTER)
+        self.doc_tree.column('Spec', width=150, anchor=tk.CENTER)
+        self.doc_tree.column('Room', width=150, anchor=tk.CENTER)
+        self.doc_tree.heading('Login', text='Логин врача')
+        self.doc_tree.heading('Name', text='Имя врача')
+        self.doc_tree.heading('Spec', text='Специальность')
+        self.doc_tree.heading('Room', text='Кабинет')
+        self.doc_tree.place(x=450, y=70)
+
+        self.text = tk.Text(width=48,
+                            height=40,
+                            font="Arial 12",
+                            wrap=tk.WORD)
+        self.text.place(x=1090, y=70)
+
+    def get_trees_view(self):
+        rec_list = self.Hospital_data.get_patients()
+        [self.pat_tree.delete(i) for i in self.pat_tree.get_children()]
+        [self.pat_tree.insert('', 'end', values=row) for row in rec_list]
+        rec_list = self.Hospital_data.get_doctors()
+        [self.doc_tree.delete(i) for i in self.doc_tree.get_children()]
+        [self.doc_tree.insert('', 'end', values=row) for row in rec_list]
+
+    def get_patient_data(self, login):
+        pat_data = self.Hospital_data.get_patient_data(login)
+        pat_str = 'Паспорт:' + str(pat_data[0]) + ' Полис:' + str(pat_data[1])
+        self.text.delete(1.0, tk.END)
+        self.text.insert(1.0, pat_str)
 
     def open_appointment_window(self):
         self.MakeAppointment()
 
-    def open_register_window(self):
-        self.RegisterWindow()
+    def open_doc_register_window(self):
+        self.DocRegisterWindow()
+
+    def open_pat_register_window(self):
+        self.PatientRegisterWindow()
 
     def open_change_password_window(self):
         self.ChangePasswordWindow()
@@ -57,50 +113,61 @@ class Manager(tk.Frame):
     def open_delete_appointment_window(self):
         self.DeleteAppointment()
 
-    class RegisterWindow(tk.Toplevel):
+    class PatientRegisterWindow(tk.Toplevel):
         def __init__(self):
             super().__init__(root)
             self.init_register_window()
             self.dataAuth = dbAuth
+            self.hospital_data = Hospital_DB
 
         def init_register_window(self):
-            self.title('Регистрация пользователя')
+            self.title('Регистрация пациента')
             self.geometry("500x300+400+300")
             self.resizable(False, False)
 
-            label_log = tk.Label(self, text='Логин')
-            label_log.place(x=100, y=50)
-            label_pass = tk.Label(self, text='Пароль')
-            label_pass.place(x=100, y=75)
-            self.label_spec = tk.Label(self, text='Тип пользователя')
-            self.label_spec.place(x=100, y=100)
+            self.label_log = tk.Label(self, text='Логин')
+            self.label_log.place(x=100, y=50)
+            self.label_pass = tk.Label(self, text='Пароль')
+            self.label_pass.place(x=100, y=75)
+            self.label_fio = tk.Label(self, text='ФИО')
+            self.label_fio.place(x=100, y=100)
+            self.label_passport = tk.Label(self, text='Паспорт')
+            self.label_passport.place(x=100, y=125)
+            self.label_oms = tk.Label(self, text='Номер ОМС')
+            self.label_oms.place(x=100, y=150)
 
             self.entry_log = ttk.Entry(self)
             self.entry_log.place(x=300, y=50)
             self.entry_pass = ttk.Entry(self)
             self.entry_pass.place(x=300, y=75)
-            self.combobox_spec = ttk.Combobox(self, values=[u'М', u'Д', u'П'])
-            self.combobox_spec.current(0)
-            self.combobox_spec.place(x=300, y=100)
+            self.entry_fio = ttk.Entry(self)
+            self.entry_fio.place(x=300, y=100)
+            self.entry_passport = ttk.Entry(self)
+            self.entry_passport.place(x=300, y=125)
+            self.entry_oms = ttk.Entry(self)
+            self.entry_oms.place(x=300, y=150)
 
             self.btn_reg = tk.Button(self, text='Зарегистрировать')
-            self.btn_reg.place(x=100, y=150)
-            self.btn_reg.bind('<Button-1>', lambda event: self.register_user(self.entry_log.get(),
-                                                                             self.entry_pass.get(),
-                                                                             self.combobox_spec.get()))
-            self.bind("<Return>", lambda event: self.register_user(self.entry_log.get(),
-                                                                   self.entry_pass.get(),
-                                                                   self.combobox_spec.get()))
+            self.btn_reg.place(x=100, y=200)
+            self.btn_reg.bind('<Button-1>', lambda event: self.register_patient(self.entry_log.get(),
+                                                                                self.entry_pass.get(),
+                                                                                self.entry_fio.get(),
+                                                                                self.entry_passport.get(),
+                                                                                self.entry_oms.get()))
+            self.bind("<Return>", lambda event: self.register_patient(self.entry_log.get(), self.entry_pass.get(),
+                                                                      self.entry_fio.get(), self.entry_passport.get(),
+                                                                      self.entry_oms.get()))
             btn_canc = tk.Button(self, text='Закрыть',
                                  command=lambda: self.destroy())
             self.bind("<Escape>", lambda event: self.destroy())
-            btn_canc.place(x=300, y=150)
+            btn_canc.place(x=300, y=200)
 
             self.grab_set()
             self.focus_get()
 
-        def register_user(self, login, password, spec):
-            response = self.dataAuth.register(login, password, spec)
+        def register_patient(self, login, password, fio, passport, oms):
+            response = self.dataAuth.register(login, password, 'П') + \
+                       self.hospital_data.reg_patient(login, fio, passport, oms)
             if response == 0:
                 ok_label = tk.Label(self, text="Успешно")
                 ok_label.pack(side=tk.BOTTOM)
@@ -110,7 +177,55 @@ class Manager(tk.Frame):
                 error_label.pack(side=tk.BOTTOM)
                 error_label.after(2000, lambda: error_label.pack_forget())
 
-    class ChangePasswordWindow(RegisterWindow):
+    class DocRegisterWindow(PatientRegisterWindow):
+        def __init__(self):
+            super().__init__()
+            self.init_doc_register_window()
+
+        def init_doc_register_window(self):
+            self.title('Регистрация врача')
+
+            self.label_spec = tk.Label(self, text='Специализация')
+            self.label_room = tk.Label(self, text='Кабинет')
+            self.label_spec.place(x=100, y=125)
+            self.label_room.place(x=100, y=150)
+            self.entry_spec = tk.Entry(self)
+            self.entry_room = tk.Entry(self)
+            self.entry_spec.place(x=300, y=125)
+            self.entry_room.place(x=300, y=150)
+
+            self.btn_doc_reg = tk.Button(self, text='Зарагистрировать')
+            self.btn_doc_reg.place(x=100, y=200)
+            self.btn_doc_reg.bind('<Button-1>', lambda event: self.register_doc(self.entry_log.get(),
+                                                                                self.entry_pass.get(),
+                                                                                self.entry_spec.get(),
+                                                                                self.entry_room.get(),
+                                                                                self.entry_fio.get()))
+            self.bind("<Return>", lambda event: self.register_doc(self.entry_log.get(),
+                                                                  self.entry_pass.get(),
+                                                                  self.entry_spec.get(),
+                                                                  self.entry_room.get(),
+                                                                  self.entry_fio.get()))
+
+            self.entry_passport.destroy()
+            self.label_oms.destroy()
+            self.label_passport.destroy()
+            self.entry_oms.destroy()
+            self.btn_reg.destroy()
+
+        def register_doc(self, login, password, spec, room, fio):
+            response = self.dataAuth.register(login, password, 'Д') + \
+                       self.hospital_data.reg_doc(login, spec, room, fio)
+            if response == 0:
+                ok_label = tk.Label(self, text="Успешно")
+                ok_label.pack(side=tk.BOTTOM)
+                ok_label.after(2000, lambda: ok_label.pack_forget())
+            else:
+                error_label = tk.Label(self, text="Пользователь с таким логином уже есть")
+                error_label.pack(side=tk.BOTTOM)
+                error_label.after(2000, lambda: error_label.pack_forget())
+
+    class ChangePasswordWindow(PatientRegisterWindow):
         def __init__(self):
             super().__init__()
             self.init_change_password_window()
@@ -125,17 +240,20 @@ class Manager(tk.Frame):
             entry_new_pass.place(x=300, y=100)
 
             btn_upd = tk.Button(self, text='Сменить пароль')
-            btn_upd.place(x=100, y=150)
+            btn_upd.place(x=100, y=200)
             btn_upd.bind('<Button-1>', lambda event: self.change_password(self.entry_log.get(),
                                                                           self.entry_pass.get(),
                                                                           entry_new_pass.get()))
             self.bind("<Return>", lambda event: self.change_password(self.entry_log.get(),
                                                                      self.entry_pass.get(),
                                                                      entry_new_pass.get()))
-
+            self.entry_passport.destroy()
+            self.label_oms.destroy()
+            self.label_passport.destroy()
+            self.label_fio.destroy()
+            self.entry_oms.destroy()
+            self.entry_fio.destroy()
             self.btn_reg.destroy()
-            self.label_spec.destroy()
-            self.combobox_spec.destroy()
 
         def change_password(self, login, old_password, new_password):
             response = self.dataAuth.change_password(login, old_password, new_password)
@@ -148,7 +266,7 @@ class Manager(tk.Frame):
                 error_label.pack(side=tk.BOTTOM)
                 error_label.after(2000, lambda: error_label.pack_forget())
 
-    class DelWindow(RegisterWindow):
+    class DelWindow(PatientRegisterWindow):
         def __init__(self):
             super().__init__()
             self.init_del_window()
@@ -156,14 +274,18 @@ class Manager(tk.Frame):
         def init_del_window(self):
             self.title('Удаление пользователя')
             btn_del = tk.Button(self, text='Удалить')
-            btn_del.place(x=120, y=150)
+            btn_del.place(x=120, y=200)
             btn_del.bind("<Button-1>", lambda event: self.del_user(self.entry_log.get(),
                                                                    self.entry_pass.get()))
             self.bind("<Return>", lambda event: self.del_user(self.entry_log.get(),
                                                               self.entry_pass.get()))
+            self.entry_passport.destroy()
+            self.label_oms.destroy()
+            self.label_passport.destroy()
+            self.label_fio.destroy()
+            self.entry_oms.destroy()
+            self.entry_fio.destroy()
             self.btn_reg.destroy()
-            self.label_spec.destroy()
-            self.combobox_spec.destroy()
 
         def del_user(self, login, password):
             response = self.dataAuth.del_user(login, password)

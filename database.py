@@ -7,7 +7,7 @@ class DB:  # база данных больницы
         self.conn = sqlite3.connect('Hospital.db')
         self.c = self.conn.cursor()
 
-    def get_doc_records(self, login, ):
+    def get_doc_records(self, login):
         date = datetime.date(datetime.today())
         s_date = str(date.day) + '.' + str(date.month) + '.' + str(date.year)[-2:]
         self.c.execute(
@@ -86,6 +86,52 @@ class DB:  # база данных больницы
         appointments = self.c.fetchall()
         return appointments
 
+    def reg_patient(self, login, fio, passport, oms):
+        try:
+            self.c.execute(
+                '''INSERT INTO patients(Patient_login, FIO, Passport, OMS)
+                VALUES (?, ?, ?, ?)''', (login, fio, passport, oms)
+            )
+            self.conn.commit()
+            return 0
+        except sqlite3.IntegrityError:
+            return -1
+
+    def reg_doc(self, login, spec, room, fio):
+        try:
+            self.c.execute(
+                '''INSERT INTO doctors(Doc_login, Specialization, Room, FIO)
+                VALUES (?, ?, ?, ?)''', (login, spec, room, fio)
+            )
+            self.conn.commit()
+            return 0
+        except sqlite3.IntegrityError:
+            return -1
+
+    def get_patients(self):
+        self.c.execute(
+            '''SELECT Patient_login, FIO 
+            FROM patients'''
+        )
+        return self.c.fetchall()
+
+    def get_doctors(self):
+        self.c.execute(
+            '''SELECT Doc_login, Specialization, FIO, room
+            FROM doctors'''
+        )
+        return self.c.fetchall()
+
+    def get_patient_data(self, login):
+        self.c.execute(
+            '''SELECT Passport, OMS 
+            FROM patients 
+            WHERE Patient_login=?''',
+            (login, )
+        )
+        return self.c.fetchone()
+
+
 
 class BDAuth:   # база данных авторизации
     def __init__(self):
@@ -118,7 +164,8 @@ class BDAuth:   # база данных авторизации
     def register(self, login, password, spec):
         try:
             self.c.execute(
-                '''INSERT INTO paslog(login, password, isdoctor) VALUES (?, ?, ?)''', (login, password, spec)
+                '''INSERT INTO paslog(login, password, isdoctor) 
+                VALUES (?, ?, ?)''', (login, password, spec)
             )
             self.connect.commit()
             return 0
