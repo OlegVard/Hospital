@@ -21,7 +21,7 @@ class DB:  # база данных больницы
 
     def get_past_records(self, login):
         self.c.execute(
-            '''SELECT id_app, Date, Time, diagnosis, FIO 
+            '''SELECT id_app, Date, diagnosis, FIO 
              FROM appointments INNER JOIN doctors
              ON appointments.Doctor = doctors.Doc_login
              WHERE Patient=?''', (login,)
@@ -131,6 +131,19 @@ class DB:  # база данных больницы
         )
         return self.c.fetchone()
 
+    def insert_help_data(self, doc_login, pat_login, anamnesis, diagnosis, treatment):
+        date = datetime.date(datetime.today())
+        s_date = str(date.day) + '.' + str(date.month) + '.' + str(date.year)[-2:]
+        try:
+            self.c.execute(
+                '''INSERT INTO appointments(Doctor, Patient, Date, anamnesis, diagnosis, treatment) 
+                VALUES (?, ?, ?, ?, ?, ?)''',
+                (doc_login, pat_login, s_date, anamnesis, diagnosis, treatment)
+            )
+            self.conn.commit()
+            return 0
+        except sqlite3.IntegrityError:
+            return -1
 
 
 class BDAuth:   # база данных авторизации

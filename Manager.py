@@ -1,4 +1,3 @@
-# вывод расписания(либо посещений, либо еще чего-то)
 from datetime import datetime
 import tkinter as tk
 from tkinter import ttk

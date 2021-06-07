@@ -29,15 +29,13 @@ class PatientWindow(tk.Frame):
                                        command=lambda: self.open_treatment())
         btn_view_treatment.pack(side=tk.RIGHT)
 
-        self.tree_past = ttk.Treeview(columns=('ID', 'Date', 'Time', 'Diagnosis', 'FIO'), heigh=14, show='headings')
-        self.tree_past.column('ID', width=150, anchor=tk.CENTER)
-        self.tree_past.column('Date', width=150, anchor=tk.CENTER)
-        self.tree_past.column('Time', width=150, anchor=tk.CENTER)
+        self.tree_past = ttk.Treeview(columns=('ID', 'Date', 'Diagnosis', 'FIO'), heigh=14, show='headings')
+        self.tree_past.column('ID', width=200, anchor=tk.CENTER)
+        self.tree_past.column('Date', width=200, anchor=tk.CENTER)
         self.tree_past.column('Diagnosis', width=200, anchor=tk.CENTER)
         self.tree_past.column('FIO', width=200, anchor=tk.CENTER)
         self.tree_past.heading('ID', text='Номер посещения')
         self.tree_past.heading('Date', text='Дата посещения')
-        self.tree_past.heading('Time', text='Время посещения')
         self.tree_past.heading('Diagnosis', text='Диагноз')
         self.tree_past.heading('FIO', text='ФИО Врача')
         self.tree_past.place(x=0, y=55)
@@ -46,7 +44,7 @@ class PatientWindow(tk.Frame):
         past_label.place(x=0, y=30)
 
         self.tree_fut = ttk.Treeview(columns=('ID', 'Date', 'Time', 'FIO', 'Room'), heigh=14, show='headings')
-        self.tree_fut.column('ID', width=150, anchor=tk.CENTER)
+        self.tree_fut.column('ID', width=100, anchor=tk.CENTER)
         self.tree_fut.column('Date', width=150, anchor=tk.CENTER)
         self.tree_fut.column('Time', width=150, anchor=tk.CENTER)
         self.tree_fut.column('FIO', width=200, anchor=tk.CENTER)
@@ -63,7 +61,7 @@ class PatientWindow(tk.Frame):
         text_label = tk.Label(text='Рекомендации по лечению')
         text_label.place(x=853, y=30)
         self.text = tk.Text(width=61,
-                            height=14,
+                            height=30,
                             font="Arial 14",
                             wrap=tk.WORD)
         self.text.place(x=853, y=55)
