@@ -1,4 +1,3 @@
-# кнопка собрать анамнез и назначить лечение
 import tkinter as tk
 from tkinter import ttk
 from database import DB
