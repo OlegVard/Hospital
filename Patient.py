@@ -1,3 +1,4 @@
+import datetime
 import tkinter as tk
 from tkinter import ttk
 from database import DB
@@ -76,7 +77,22 @@ class PatientWindow(tk.Frame):
         [self.tree_past.insert('', 'end', values=row) for row in rec_list]
 
     def view_fut_records(self, login):
-        rec_list = self.db.get_fut_records(login)
+        now_date = datetime.date.today()
+        day = int(now_date.strftime('%d'))
+        month = int(now_date.strftime('%m'))
+        year = int(now_date.strftime('%y'))
+        temp_list = self.db.get_fut_records(login)
+        rec_list = []
+        for temp in temp_list:
+            now = temp[1]
+            if day > int(now[:2]):
+                continue
+            elif month > int(now[3:-3]):
+                continue
+            elif year % 100 > int(now[-2:]):
+                continue
+            else:
+                rec_list.append(temp)
         [self.tree_fut.insert('', 'end', values=row) for row in rec_list]
 
 

@@ -1,5 +1,5 @@
 import sqlite3
-from datetime import datetime
+from datetime import date
 
 
 class DB:  # база данных больницы
@@ -8,8 +8,8 @@ class DB:  # база данных больницы
         self.c = self.conn.cursor()
 
     def get_doc_records(self, login):
-        date = datetime.date(datetime.today())
-        s_date = str(date.day) + '.' + str(date.month) + '.' + str(date.year)[-2:]
+        date_now = date.today()
+        s_date = str(date_now.day) + '.' + str(date_now.month) + '.' + str(date_now.year)[-2:]
         self.c.execute(
             '''SELECT ID, Patient, Time, FIO 
                         FROM records INNER JOIN patients
@@ -132,8 +132,8 @@ class DB:  # база данных больницы
         return self.c.fetchone()
 
     def insert_help_data(self, doc_login, pat_login, anamnesis, diagnosis, treatment):
-        date = datetime.date(datetime.today())
-        s_date = str(date.day) + '.' + str(date.month) + '.' + str(date.year)[-2:]
+        date_now = date.today()
+        s_date = str(date_now.day) + '.' + str(date_now.month) + '.' + str(date_now.year)[-2:]
         try:
             self.c.execute(
                 '''INSERT INTO appointments(Doctor, Patient, Date, anamnesis, diagnosis, treatment) 

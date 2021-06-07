@@ -10,6 +10,14 @@ class Manager(tk.Frame):
         self.initManager()
         self.dataAuth = dbAuth
         self.Hospital_data = Hospital_DB
+        f = open("log.txt", 'r')
+        self.work_login = f.readline()
+        f.close()
+        f = open("log.txt", 'w')
+        f.write('')
+        f.close()
+        if self.work_login != 'man1':
+            self.destroy()
         self.get_trees_view()
 
     def initManager(self):
