@@ -23,8 +23,10 @@ class AuthWindow(tk.Frame):
                                   command=lambda: self.sing_in(
                                       self.entry_log.get(),
                                       self.entry_pass.get()),
-                                  bg='#ffefd5')
-        self.conf_btn.place(x=225, y=200)
+                                  bg='#ffefd5',
+                                  width=20,
+                                  heigh=2)
+        self.conf_btn.place(x=180, y=200)
         root.bind("<Return>", lambda event: self.sing_in(
                             self.entry_log.get(),
                             self.entry_pass.get()))

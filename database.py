@@ -1,15 +1,25 @@
 import sqlite3
 from datetime import date
+import calendar
 
 
 class DB:  # база данных больницы
     def __init__(self):
         self.conn = sqlite3.connect('Hospital.db')
         self.c = self.conn.cursor()
+        self.calender = calendar
 
     def get_doc_records(self, login):
         date_now = date.today()
-        s_date = str(date_now.day) + '.' + str(date_now.month) + '.' + str(date_now.year)[-2:]
+        if date_now.day < 9:
+            s_date = '0' + str(date_now.day) + '.'
+        else:
+            s_date = str(date_now.day) + '.'
+        if date_now.month < 9:
+            s_date += '0' + str(date_now.month) + '.'
+        else:
+            s_date += str(date_now.month) + '.'
+        s_date += str(date_now.year)[-2:]
         self.c.execute(
             '''SELECT ID, Patient, Time, FIO 
                         FROM records INNER JOIN patients
@@ -56,7 +66,18 @@ class DB:  # база данных больницы
             (date, doc)
         )
         appointments = self.c.fetchall()
-        return appointments
+        year = int('20' + date[-2:])
+        month = int(date[3:-3])
+        day = int(date[:2])
+        time = self.calender.weekday(year, month, day)
+        self.c.execute(
+            '''SELECT Time 
+            FROM time_table 
+            WHERE day=?''',
+            (time, )
+        )
+        timetable = self.c.fetchone()
+        return appointments, timetable
 
     def add_appointment(self, doc, pat, time, date):
         try:
@@ -196,6 +217,8 @@ class BDAuth:   # база данных авторизации
                     '''UPDATE paslog SET password=? WHERE login=?''',
                     (new_password, login)
                 )
+            else:
+                return -2
             self.connect.commit()
             return 0
         except TypeError:

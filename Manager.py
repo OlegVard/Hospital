@@ -1,4 +1,3 @@
-from datetime import datetime
 import tkinter as tk
 from tkinter import ttk
 from database import BDAuth, DB
@@ -16,7 +15,7 @@ class Manager(tk.Frame):
         f = open("log.txt", 'w')
         f.write('')
         f.close()
-        if self.work_login != 'man1':
+        if self.work_login == '':
             self.destroy()
         self.get_trees_view()
 
@@ -44,7 +43,7 @@ class Manager(tk.Frame):
                             compound=tk.TOP)
         btn_del.pack(side=tk.LEFT)
         btn_make_app = tk.Button(manager_tool_bar,
-                                 text='Запись на прием',
+                                 text='Записать на прием',
                                  command=lambda: self.open_appointment_window(),
                                  compound=tk.TOP)
         btn_make_app.pack(side=tk.LEFT)
@@ -71,7 +70,7 @@ class Manager(tk.Frame):
         self.pat_tree.heading('Name', text='Имя пациента')
         self.pat_tree.place(x=10, y=70)
 
-        self.doc_tree = ttk.Treeview(columns=('Login', 'Name', 'Spec', 'Room'), heigh=35, show='headings')
+        self.doc_tree = ttk.Treeview(columns=('Login', 'Spec', 'Name', 'Room'), heigh=35, show='headings')
         self.doc_tree.column('Login', width=150, anchor=tk.CENTER)
         self.doc_tree.column('Name', width=150, anchor=tk.CENTER)
         self.doc_tree.column('Spec', width=150, anchor=tk.CENTER)
@@ -268,8 +267,12 @@ class Manager(tk.Frame):
                 ok_label = tk.Label(self, text="Успешно")
                 ok_label.pack(side=tk.BOTTOM)
                 ok_label.after(2000, lambda: ok_label.pack_forget())
+            elif response == -2:
+                error_label = tk.Label(self, text="Неверно введен старый пароль")
+                error_label.pack(side=tk.BOTTOM)
+                error_label.after(2000, lambda: error_label.pack_forget())
             else:
-                error_label = tk.Label(self, text="Неверно введен логин, старый пароль или новый пароль")
+                error_label = tk.Label(self, text="Неверно новый пароль")
                 error_label.pack(side=tk.BOTTOM)
                 error_label.after(2000, lambda: error_label.pack_forget())
 
@@ -334,6 +337,14 @@ class Manager(tk.Frame):
             self.tree.heading('Time', text='Время')
             self.tree.heading('Patient', text='Пациент')
             self.tree.place(x=50, y=60)
+            time_lable = tk.Label(self, text='Время работы')
+            time_lable.place(x=510, y=150)
+            self.text = tk.Text(self,
+                                width=25,
+                                height=10,
+                                font="Arial 12",
+                                wrap=tk.WORD)
+            self.text.place(x=510, y=170)
 
             time_label = tk.Label(self, text='Время')
             pat_label = tk.Label(self, text='Логин пациента')
@@ -354,9 +365,11 @@ class Manager(tk.Frame):
             self.focus_get()
 
         def view_appointments(self, date, doc):
-            rec_list = self.db.get_appointments(date, doc)
+            rec_list, time = self.db.get_appointments(date, doc)
             [self.tree.delete(i) for i in self.tree.get_children()]
             [self.tree.insert('', 'end', values=row) for row in rec_list]
+            self.text.delete(1.0, tk.END)
+            self.text.insert(1.0, time[0])
 
         def add_appoint(self, doc, pat, time, date):
             response = self.db.add_appointment(doc, pat, time, date)
@@ -420,8 +433,6 @@ class Manager(tk.Frame):
 
 
 root = tk.Tk()
-time_table = datetime.today()
-week_day = time_table.weekday()
 dbAuth = BDAuth()
 Hospital_DB = DB()
 app = Manager(root)

@@ -89,12 +89,20 @@ class Doctor(tk.Frame):
             btn_sort.bind('<Button-1>', lambda event: self.view_appointments(date.get(),
                                                                              doc.get()))
             btn_sort.place(x=400, y=10)
-            self.app_tree = ttk.Treeview(self, columns=('Time', 'Patient'), heigh=15, show='headings')
-            self.app_tree.column('Time', width=200, anchor=tk.CENTER)
-            self.app_tree.column('Patient', width=200, anchor=tk.CENTER)
-            self.app_tree.heading('Time', text='Время')
-            self.app_tree.heading('Patient', text='Пациент')
-            self.app_tree.place(x=50, y=60)
+            self.tree = ttk.Treeview(self, columns=('Time', 'Patient'), heigh=15, show='headings')
+            self.tree.column('Time', width=200, anchor=tk.CENTER)
+            self.tree.column('Patient', width=200, anchor=tk.CENTER)
+            self.tree.heading('Time', text='Время')
+            self.tree.heading('Patient', text='Пациент')
+            self.tree.place(x=50, y=60)
+            time_lable = tk.Label(self, text='Время работы')
+            time_lable.place(x=510, y=150)
+            self.text = tk.Text(self,
+                                width=25,
+                                height=10,
+                                font="Arial 12",
+                                wrap=tk.WORD)
+            self.text.place(x=510, y=170)
 
             time_label = tk.Label(self, text='Время')
             pat_label = tk.Label(self, text='Логин пациента')
@@ -115,9 +123,11 @@ class Doctor(tk.Frame):
             self.focus_get()
 
         def view_appointments(self, date, doc):
-            rec_list = self.db.get_appointments(date, doc)
-            [self.app_tree.delete(i) for i in self.app_tree.get_children()]
-            [self.app_tree.insert('', 'end', values=row) for row in rec_list]
+            rec_list, time = self.db.get_appointments(date, doc)
+            [self.tree.delete(i) for i in self.tree.get_children()]
+            [self.tree.insert('', 'end', values=row) for row in rec_list]
+            self.text.delete(1.0, tk.END)
+            self.text.insert(1.0, time[0])
 
         def add_appoint(self, doc, pat, time, date):
             response = self.db.add_appointment(doc, pat, time, date)
@@ -137,7 +147,7 @@ class Doctor(tk.Frame):
             self.init_help_window(pat_login, doc_login)
 
         def init_help_window(self, pat_login, doc_login):
-            self.title('Запись на прием')
+            self.title('Прием')
             self.geometry("1000x700+200+100")
             self.resizable(False, False)
 
@@ -165,7 +175,7 @@ class Doctor(tk.Frame):
                                      font="Arial 12",
                                      wrap=tk.WORD)
             treatment_text.place(x=510, y=330)
-            button_conf = tk.Button(self, text='Внести данные')
+            button_conf = tk.Button(self, text='Внести данные', width=64)
             button_conf.bind('<Button-1>', lambda event: self.insert_help_data(doc_login,
                                                                                pat_login,
                                                                                anamnesis_text.get(1.0, tk.END),
